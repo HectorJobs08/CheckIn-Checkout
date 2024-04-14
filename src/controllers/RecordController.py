@@ -2,6 +2,7 @@ from bson import ObjectId
 
 # Config
 from src.config.mongo import records_collection
+from src.config.mongo import employees_collection
 
 # Models
 from src.models.RecordModel import Record
@@ -23,5 +24,9 @@ def query(id: str):
 def store(record: Record):
     data = record.model_dump()
     result = records_collection.insert_one(data)
-    employee = query(str(result.inserted_id))
-    return employee
+    record_stored = query(str(result.inserted_id))
+    employees_collection.update_one(
+        { "_id": ObjectId(record.user_id) },
+        { "$set": { "status":  record.record_type } }
+    )
+    return record_stored
