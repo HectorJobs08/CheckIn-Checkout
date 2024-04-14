@@ -1,12 +1,12 @@
-import json
-
 from bson import ObjectId
 
+# Config
 from src.config.mongo import employees_collection
 
 # Models
 from src.models.EmployeeModel import Employee
 
+# Utils
 from src.utils.json_utils import get_items, get_item
 
 def index():
